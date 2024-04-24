@@ -1,0 +1,49 @@
+{# templates/categorie/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Catégories{% endblock %}
+
+{% block body %}
+<h1>Liste des Catégories</h1>
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Catégorie</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for categorie in categories %}
+        <tr>
+            <!--
+            <td>{{ categorie.name }}</td>
+            <td>
+                <form action="{{ path('categorie_delete', {'id': categorie.id}) }}" method="post">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+            --> 
+            <!-- Edit Button -->
+            <td class="text-center">
+                <a href="{{ path('categorie.edit', {'id': formation.id}) }}" class="btn btn-primary">
+                    Edit
+                </a>
+            </td>
+            <!-- Delete Button -->
+            <td class="text-center">
+                <form action="{{ path('categorie.delete', {'id': formation.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this formation?');">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

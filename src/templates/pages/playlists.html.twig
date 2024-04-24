@@ -1,0 +1,83 @@
+{% extends "basefront.html.twig" %}
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-left align-top" scope="col">
+                    playlist<br />
+                    <a href="{{ path('playlists.sort', {champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
+                    <a href="{{ path('playlists.sort', {champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
+                    <form class="form-inline mt-1" method="POST" action="{{ path('playlists.findallcontain', {champ:'name'}) }}">
+                        <div class="form-group mr-1 mb-2">
+                            <input type="text" class="sm" name="recherche" 
+                                   value="{% if valeur|default and not table|default %}{{ valeur }}{% endif %}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
+                            <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                        </div>
+                    </form>                    
+                </th>
+                <th class="text-left align-top" scope="col">
+                    catégories
+                    <form class="form-inline mt-1" method="POST" action="{{ path('playlists.findallcontain', {champ:'id', table:'categories'}) }}">
+                        <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit()">
+                            <option value=""></option>
+                            {% for categorie in categories %}
+                                <option 
+                                    {% if valeur|default and valeur==categorie.id %} 
+                                        selected
+                                    {% endif %} 
+                                    value="{{ categorie.id }}">{{ categorie.name }}
+                                </option>
+                            {% endfor %}
+                        </select>                    
+                    </form>            
+                </th>
+                <th class="text-center align-top" scope="col">
+                    &nbsp;
+                </th>
+                
+<!-- ajout du filtre formation-->
+
+<th class="text-left align-top" scope="col">
+                    formation<br>
+                    <a href="/mediatekformation/public/index.php/formations/tri/title/ASC" class="btn btn-info btn-sm active" role="button" aria-pressed="true">&lt;</a>
+                    <a href="/mediatekformation/public/index.php/formations/tri/title/DESC" class="btn btn-info btn-sm active" role="button" aria-pressed="true">&gt;</a>
+                    <form class="form-inline mt-1" method="POST" action="/mediatekformation/public/index.php/formations/recherche/title">
+                        <div class="form-group mr-1 mb-2">
+                            <input type="text" class="sm" name="recherche" value="">
+                            <input type="hidden" name="_token" value="73c2794130befbd6470baecd6b4.WjArlvHCC1gbsNhNsbkIGvkm1tVrZGbNS3P3koc7xZY.DQFp-LuJZAJW6p4Xy9tQe79zu6UlFB-iDkeeq-p8g9xoaRmltvZOMnrenQ">
+                            <button type="submit" class="btn btn-info mb-2 btn-sm">filtrer</button>
+                        </div>
+                    </form>                    
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- boucle sur les playlists -->
+            {% if playlists|length > 0 %}
+                {% for k in 0..playlists|length-1 %}
+                    <tr class="align-middle">
+                        <td>
+                            <h5 class="text-info">
+                                {{ playlists[k].name }}
+                            </h5>
+                        </td>                 
+                        <td class="text-left">
+                            {% set categories = playlists[k].categoriesplaylist %}
+                            {% if categories|length > 0  %}
+                                {% for c in 0..categories|length-1 %}
+                                    &nbsp;{{ categories[c] }}                                  
+                                {% endfor %}
+                            {% endif %}
+                        </td>            					
+                        <td class="text-center">
+                            <a href="{{ path('playlists.showone', {id:playlists[k].id}) }}" class="btn btn-secondary">Voir détail</a>
+                        </td> 					
+                    </tr>
+                    
+                {% endfor %}	
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
