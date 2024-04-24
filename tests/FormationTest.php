@@ -7,9 +7,7 @@
 
 namespace App\Tests;
 
-use App\Entity\Visite;
-use App\Entity\Environnement;
-use DateTime;
+use App\Entity\Formation;
 use PHPUnit\Framework\TestCase;
 
 

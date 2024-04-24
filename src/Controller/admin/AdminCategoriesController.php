@@ -30,8 +30,8 @@ class AdminCategoriesController extends AbstractController{
         $formations = $this->repository->findAllLasted(2);
         return $this->render("pages/categories.html.twig", [
             'formations' => $formations,
-            'playlists' => $playlists,
-             'categories' => $categories
+            
+             
             
         ]); 
     }
