@@ -8,11 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Controleur des formations
- *
- * @author emds
- */
+
 class FormationsController extends AbstractController {
 
     /**
@@ -23,7 +19,7 @@ class FormationsController extends AbstractController {
     
     /**
      * 
-     * @var CategorieRepository
+     * @var FormationsRepository
      */
     private $categorieRepository;
     

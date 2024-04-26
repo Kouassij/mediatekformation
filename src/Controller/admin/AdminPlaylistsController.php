@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of PlaylistsController
  *
- * @author emds
+ * @author Test1
  */
 class AdminPlaylistsController extends AbstractController {
     
@@ -43,7 +43,8 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
-     * @Route("/playlists", name="playlists")
+     * @Route("/admin", name="admin.playlists")
+     
      * @return Response
      */
   public function index(): Response {
@@ -78,42 +79,11 @@ class AdminPlaylistsController extends AbstractController {
     ]);
 }
 
-    /**
-     * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontain")
-     * @param type $champ
-     * @param Request $request
-     * @param type $table
-     * @return Response
-     */
-    public function findAllContain($champ, Request $request, $table=""): Response{
-        $valeur = $request->get("recherche");
-        $playlists = $this->playlistRepository->findByContainValue($champ, $valeur, $table);
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/playlists.html.twig", [
-            'playlists' => $playlists,
-            'categories' => $categories,            
-            'valeur' => $valeur,
-            'table' => $table
-        ]);
-    }  
-    
-    /**
-     * @Route("/playlists/playlist/{id}", name="playlists.showone")
-     * @param type $id
-     * @return Response
-     */
-    public function showOne($id): Response{
-        $playlist = $this->playlistRepository->find($id);
-        $playlistCategories = $this->categorieRepository->findAllForOnePlaylist($id);
-        $playlistFormations = $this->formationRepository->findAllForOnePlaylist($id);
-        return $this->render("pages/playlist.html.twig", [
-            'playlist' => $playlist,
-            'playlistcategories' => $playlistCategories,
-            'playlistformations' => $playlistFormations
-        ]);        
-    }       
-    /**
- * @Route("/playlists/add", name="playlists.add")
+        
+/**
+    * @Route("/admin/add", name="admin.playlists.add")
+    * @param Request $request
+    * @return Response
  */
 public function add(Request $request): Response {
     if ($request->isMethod('POST')) {

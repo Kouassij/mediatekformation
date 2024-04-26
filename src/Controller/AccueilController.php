@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Controleur de l'accueil
  *
- * @author emds
+ * @author Test1
  */
 class AccueilController extends AbstractController{
       
@@ -26,7 +26,7 @@ class AccueilController extends AbstractController{
         $this->repository = $repository;
     }   
     
-    /**
+       /**
      * @Route("/", name="accueil")
      * @return Response
      */

@@ -9,11 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Description of PlaylistsController
- *
- * @author emds
- */
 class PlaylistsController extends AbstractController {
     
     /**

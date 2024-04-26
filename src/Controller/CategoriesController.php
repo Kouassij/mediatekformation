@@ -8,7 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+/**
+ * Description of CategoriesController
+ *
+ * @author Test1
+ */
 class CategoriesController extends AbstractController{
    /**
      * @var FormationRepository

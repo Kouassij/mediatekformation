@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Controleur des formations
  *
- * @author emds
+ * @author Test1
  */
 class AdminFormationsController extends AbstractController {
 
@@ -27,19 +27,14 @@ class AdminFormationsController extends AbstractController {
      */
     private $formationRepository;
     
-    /**
-     * 
-     * @var CategorieRepository
-     */
-    private $categorieRepository;
-    
+   
     function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository= $categorieRepository;
     }
     
     /**
-     * @Route("/formations", name="formations")
+     * @Route("/admin", name="admin.formations")
      * @return Response
      */
     public function index(): Response{
@@ -50,53 +45,7 @@ class AdminFormationsController extends AbstractController {
             'categories' => $categories
         ]);
     }
-
-    /**
-     * @Route("/formations/tri/{champ}/{ordre}/{table}", name="formations.sort")
-     * @param type $champ
-     * @param type $ordre
-     * @param type $table
-     * @return Response
-     */
-    public function sort($champ, $ordre, $table=""): Response{
-        $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("admin/admin.formations.html.twig", [
-            'formations' => $formations,
-            'categories' => $categories
-        ]);
-    }     
-    
-    /**
-     * @Route("/formations/recherche/{champ}/{table}", name="formations.findallcontain")
-     * @param type $champ
-     * @param Request $request
-     * @param type $table
-     * @return Response
-     */
-    public function findAllContain($champ, Request $request, $table=""): Response{
-        $valeur = $request->get("recherche");
-        $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("admin/admin.formations.html.twig", [
-            'formations' => $formations,
-            'categories' => $categories,
-            'valeur' => $valeur,
-            'table' => $table
-        ]);
-    }  
-    
-    /**
-     * @Route("/formations/formation/{id}", name="formations.showone")
-     * @param type $id
-     * @return Response
-     */
-    public function showOne($id): Response{
-        $formation = $this->formationRepository->find($id);
-        return $this->render("admin/admin.formation.html.twig", [
-            'formation' => $formation
-        ]);        
-    }   
+  
  /**
  * @Route("/formations/delete/{id}", name="formations.delete", methods={"POST"})
  */
@@ -126,10 +75,31 @@ public function edit(Request $request, $id = null): Response {
         return $this->redirectToRoute('admin.formations');
     }
 
-    return $this->render('admin/admin.formation.edit.html.twig', [
+    return $this->render('admin/admin.formations.edit.html.twig', [
         'form' => $form->createView()
     ]);
 }
+ /**
+    * @Route("/admin/add", name="admin.formations.add")
+    * @param Request $request
+    * @return Response
+ */
+   
 
+public function add(Request $request): Response{
+        $formation = new Formation();
+        $formFormation = $this->createForm(FormationType::class, $formation);
+
+        $formFormation->handleRequest($request);
+        if($formFormation->isSubmitted() && $formFormation->isValid()){
+            $this->repository->add($formation, true);
+            return $this->redirectToRoute('admin.formation');
+        }     
+
+        return $this->render("admin/admin.formations.add.html.twig", [
+            'formation' => $formation,
+            'formformation' => $formFormation->createView()
+        ]);        
+    }    
 }
 

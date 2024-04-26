@@ -23,7 +23,7 @@ class AdminCategoriesController extends AbstractController{
         $this->repository = $repository;
     }  
       /**
-     * @Route("/", name="categories")
+     * @Route("/admin", name="admin.categories")
      * @return Response
      */
     public function index(): Response{
@@ -35,30 +35,7 @@ class AdminCategoriesController extends AbstractController{
             
         ]); 
     }
-    /**
-     * @Route("/formations/recherche/{champ}/{table}", name="formations.findallcontain")
-     * @param type $champ
-     * @param Request $request
-     * @param type $table
-     * @return Response
-     */
-     public function findAllContain($champ, Request $request, $table=""): Response{
-        $valeur = $request->get("recherche");
-        $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
-        $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/categories.html.twig", [
-            'formations' => $formations,
-            'categories' => $categories,
-            'valeur' => $valeur,
-            'table' => $table
-        ]);
-    }  
-    public function showOne($id): Response{
-          $categories = $this->categorieRepository->find($id);
-        return $this->render("pages/categories.html.twig", [
-            'categories' => $categories
-        ]);        
-    }
+
     /**
  * @Route("/categories/delete/{id}", name="categories.delete", methods={"POST"})
  */
@@ -117,4 +94,32 @@ public function edit(Request $request, $id = null): Response {
         'canDelete' => $canDelete
     ]);
 }
+
+ /**
+    * @Route("/admin/add", name="admin.categories.add")
+    * @param Request $request
+    * @return Response
+ */
+public function add(Request $request): Response {
+    if ($request->isMethod('POST')) {
+        $name = $request->request->get('name');
+        $description = $request->request->get('description', '');
+        
+        if (empty($name)) {
+            $this->addFlash('error', 'Name is required.');
+            return $this->redirectToRoute('playlists.add');
+        }
+
+        $playlist = new Playlist();
+        $playlist->setName($name);
+        $playlist->setDescription($description);
+        $this->playlistRepository->add($playlist, true);
+        
+        $this->addFlash('success', 'Playlist added successfully!');
+        return $this->redirectToRoute('playlists');
+    }
+    
+    return $this->render("pages/playlist_add.html.twig");
+}
+
 }

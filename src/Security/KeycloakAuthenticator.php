@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
 /**
  * Description of KeycloakAuthenticator
  *
- * @author emds
+ * @author Test1
  */
 class KeycloakAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface {
     
