@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block top %}
+    <div class="container">
+        <div class="text-end">
+            <a href="{{ path('logout') }}">se déconnecter</a>
+        </div>        
+        <!-- titre -->
+        <div class="text-center">
+            <h1>Gestion des formations</h1>
+        </div>       
+        <!-- menu -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ path('admin.formations') }}">Formations</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ path('admin.playlists') }}">Playlists</a>
+                </li>                
+              </ul>
+            </div>
+        </nav>   
+    </div>
+{% endblock %}
+
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+

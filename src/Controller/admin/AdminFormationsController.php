@@ -23,7 +23,8 @@ class AdminFormationsController extends AbstractController {
 
     /**
      * 
-     * @var FormationRepository
+     * @var formationRepository
+     //Repository utilisé pour les opérations sur les entités Formation.
      */
     private $formationRepository;
     
@@ -83,6 +84,7 @@ public function edit(Request $request, $id = null): Response {
     * @Route("/admin/add", name="admin.formations.add")
     * @param Request $request
     * @return Response
+  // Ce contrôleur permet de lister, ajouter, modifier et supprimer des formations.
  */
    
 
