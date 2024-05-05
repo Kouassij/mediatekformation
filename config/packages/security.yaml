@@ -1,39 +1,45 @@
+# Configuration principale de sécurité
 security:
-    enable_authenticator_manager: true
+    enable_authenticator_manager: true  # Active le nouveau système d'authentification introduit dans Symfony 5.1
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'  # Utilise une stratégie de hachage automatique pour les mots de passe
+
+    # Définition des fournisseurs d'utilisateurs
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\User
-                property: email
+                class: App\Entity\User  # Classe de l'entité utilisateur
+                property: email  # Utilise l'email comme identifiant pour l'authentification
+
+    # Configuration des pare-feu (firewalls)
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+            pattern: ^/(_(profiler|wdt)|css|images|js)/  # Exclut certaines routes du système de sécurité
+            security: false  # Désactive la sécurité pour les routes de développement
+
         main:
-            lazy: true
-            #http_basic: true
-            provider: app_user_provider
-            entry_point: form_login
-            # provider: app_user_provider
+            lazy: true  # Charge l'utilisateur  pour améliorer les performances
+            provider: app_user_provider  # Spécifie le fournisseur d'utilisateurs pour ce pare-feu
+            entry_point: form_login  # Point d'entrée par défaut utilisant le formulaire de connexion
             form_login:
-                login_path: oauth_login
-                check_path: oauth_login
-                enable_csrf: true
+                login_path: oauth_login  # Chemin pour le formulaire de connexion
+                check_path: oauth_login  # Chemin pour vérifier les informations de connexion
+                enable_csrf: true  # Active la protection CSRF pour le formulaire de connexion
             custom_authenticators:
-                - App\Security\KeycloakAuthenticator
+                - App\Security\KeycloakAuthenticator  # Utilise un authentificateur personnalisé pour Keycloak
             logout:
-                path: logout
+                path: logout  # Chemin pour déclencher la déconnexion
 
+    # Contrôle d'accès
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }  # Restreint l'accès au chemin /admin aux utilisateurs avec le rôle ADMIN
 
+# Configuration spécifique pour l'environnement de test
 when@test:
     security:
         password_hashers:
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+                algorithm: auto  # Utilise un algorithme de hachage automatique
+                cost: 4  # Définit le coût pour bcrypt (le plus bas possible)
+                time_cost: 3  # Définit le coût temporel pour Argon2 (le plus bas possible)
+                memory_cost: 10  # Définit le coût en mémoire pour Argon2 (le plus bas possible)

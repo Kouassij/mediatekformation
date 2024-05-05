@@ -1,16 +1,21 @@
 {# templates/categorie/index.html.twig #}
 
+{# étend la structure de base de la page à partir du fichier base.html.twig #}
 {% extends 'base.html.twig' %}
 
+{# Définit le titre de la page qui s'affiche dans l'onglet du navigateur #}
 {% block title %}Liste des Catégories{% endblock %}
 
+{# Définit le contenu principal de la page #}
 {% block body %}
 <h1>Liste des Catégories</h1>
 
+{# Formulaire de création/édition de catégories #}
 {{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+{{ form_widget(form) }} {# Génère les widgets du formulaire de catégorie #}
+{{ form_end(form) }} {# Ferme le formulaire #}
 
+{# Tableau affichant les catégories existantes #}
 <table class="table">
     <thead>
         <tr>
@@ -19,25 +24,26 @@
         </tr>
     </thead>
     <tbody>
+        {# Boucle sur chaque catégorie pour affichage #}
         {% for categorie in categories %}
         <tr>
-            <!--
+            {# Commentaires désactivés pour le code original de suppression
             <td>{{ categorie.name }}</td>
             <td>
                 <form action="{{ path('categorie_delete', {'id': categorie.id}) }}" method="post">
                     <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>
             </td>
-            --> 
-            <!-- Edit Button -->
+            --> #}
+            {# Bouton d'édition lié à chaque catégorie #}
             <td class="text-center">
-                <a href="{{ path('categorie.edit', {'id': formation.id}) }}" class="btn btn-primary">
+                <a href="{{ path('categorie.edit', {'id': categorie.id}) }}" class="btn btn-primary">
                     Edit
                 </a>
             </td>
-            <!-- Delete Button -->
+            {# Bouton de suppression avec confirmation par JavaScript #}
             <td class="text-center">
-                <form action="{{ path('categorie.delete', {'id': formation.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this formation?');">
+                <form action="{{ path('categorie.delete', {'id': categorie.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this category?');">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
